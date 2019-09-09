@@ -896,9 +896,9 @@ do
   --android-incdir=*)
     android=true;
     threaded_math=false;
-    static_math=true;
-    static_fst=true;
-    dynamic_kaldi=false;
+    static_math=false;
+    static_fst=false;
+    dynamic_kaldi=true;
     MATHLIB='OPENBLAS';
     GetSwitchExistingPathOrDie ANDROIDINC "$1"
     shift;;
@@ -927,7 +927,7 @@ fi
 # 2. We parse the target architecture from the HOST triple.
 # Otherwise we set the target architecture to the output of `uname -m`.
 if is_set $HOST; then
-  CXX="$HOST-$CXX"
+#  CXX="$HOST-$CXX"
   AR="$HOST-$AR"
   AS="$HOST-$AS"
   RANLIB="$HOST-$RANLIB"
