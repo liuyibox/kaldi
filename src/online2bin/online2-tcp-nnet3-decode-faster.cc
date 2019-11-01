@@ -30,12 +30,15 @@
 #include "util/kaldi-thread.h"
 #include "nnet3/nnet-utils.h"
 
+#if !defined(_WIN32)
 #include <netinet/in.h>
 #include <sys/socket.h>
-#include <sys/types.h>
-#include <poll.h>
-#include <signal.h>
 #include <arpa/inet.h>
+#include <poll.h>
+#endif
+
+#include <sys/types.h>
+#include <signal.h>
 #include <unistd.h>
 #include <string>
 

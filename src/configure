@@ -749,6 +749,7 @@ static_math=false
 threaded_atlas=false
 mkl_threading=sequential
 android=false
+mingw=false
 
 FSTROOT=`rel2abs ../tools/openfst`
 CUBROOT=`rel2abs ../tools/cub`
@@ -901,6 +902,14 @@ do
     dynamic_kaldi=true;
     MATHLIB='OPENBLAS';
     GetSwitchExistingPathOrDie ANDROIDINC "$1"
+    shift;;
+  --mingw=*)
+    mingw=true;
+    threaded_math=false;
+    static_math=true;
+    static_fst=true;
+    dynamic_kaldi=true;
+    MATHLIB='OPENBLAS';
     shift;;
   *)  echo "Unknown argument: $1, exiting"; usage; exit 1 ;;
   esac
@@ -1121,6 +1130,26 @@ if $android ; then
   cat makefiles/android_openblas.mk >> kaldi.mk
 
   echo "Successfully configured for Android with OpenBLAS from $OPENBLASROOT."
+
+elif $mingw ; then
+
+  OPENBLASROOT=`rel2abs "$OPENBLASROOT"`
+  if [ -z "$OPENBLASROOT" ]; then
+    failure "The location of OPENBLAS must be specified for android builds
+             using --openblas-root (and it must exist)"
+  fi
+  if [ ! -f $OPENBLASROOT/lib/libopenblas.a ]; then
+    failure "Expected to find the file $OPENBLASROOT/lib/libopenblas.a"
+  fi
+  echo "Using OpenBLAS as the linear algebra library."
+
+  OPENBLASLIBS="$OPENBLASROOT/lib/libopenblas.a"
+  echo "OPENBLASINC = $OPENBLASROOT/include" >> kaldi.mk
+  echo "OPENBLASLIBS = $OPENBLASLIBS" >> kaldi.mk
+
+  cat makefiles/mingw.mk >> kaldi.mk
+
+  echo "Successfully configured for MinGW with OpenBLAS from $OPENBLASROOT."
 
 elif [ "`uname`" == "Darwin" ]; then
   # Check for Darwin first, because we later call uname -o (for Cygwin)
