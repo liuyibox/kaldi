@@ -43,7 +43,7 @@ int32 RoundUpToNearestPowerOfTwo(int32 n) {
 static std::mutex _RandMutex;
 
 int Rand(struct RandomState* state) {
-#if !defined(_POSIX_THREAD_SAFE_FUNCTIONS)
+#if !defined(_POSIX_THREAD_SAFE_FUNCTIONS) || defined(_WIN32)
   // On Windows and Cygwin, just call Rand()
   return rand();
 #else

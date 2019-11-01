@@ -46,7 +46,11 @@
 #endif
 #endif
 
-#if defined(_MSC_VER)
+#if defined(_WIN32)
+#  define KALDI_MEMALIGN(align, size, pp_orig) \
+  (*(pp_orig) = _aligned_malloc(size, align))
+#  define KALDI_MEMALIGN_FREE(x) _aligned_free(x)
+#elif defined(_MSC_VER)
 #  define KALDI_MEMALIGN(align, size, pp_orig) \
   (*(pp_orig) = _aligned_malloc(size, align))
 #  define KALDI_MEMALIGN_FREE(x) _aligned_free(x)

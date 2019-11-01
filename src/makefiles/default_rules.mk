@@ -2,7 +2,13 @@
 SHELL := /bin/bash
 
 ifeq ($(KALDI_FLAVOR), dynamic)
-  ifeq ($(shell uname), Darwin)
+  ifdef MINGW
+    ifdef LIBNAME
+      LIBFILE = lib$(LIBNAME).dll
+    endif
+    LDFLAGS += -Wl,-rpath=$(shell readlink -f $(KALDILIBDIR))
+    EXTRA_LDLIBS += $(foreach dep,$(ADDLIBS), $(dir $(dep))lib$(notdir $(basename $(dep))).dll)
+  else ifeq ($(shell uname), Darwin)
     ifdef ANDROIDINC # cross-compiling enabled on host MacOS
       ifdef LIBNAME
         LIBFILE = lib$(LIBNAME).so
