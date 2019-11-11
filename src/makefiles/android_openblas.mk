@@ -30,8 +30,7 @@ CXXFLAGS = -std=c++11 -I.. -I$(OPENFSTINC) -O1 $(EXTRA_CXXFLAGS) \
            -Wno-deprecated-declarations -Winit-self -Wno-mismatched-tags \
            -DKALDI_DOUBLEPRECISION=$(DOUBLE_PRECISION) \
            -DHAVE_CXXABI_H -DHAVE_OPENBLAS -DANDROID_BUILD \
-           -I$(OPENBLASINC) -I$(ANDROIDINC) -ftree-vectorize -mfloat-abi=softfp \
-           -mfpu=neon -pthread \
+           -I$(OPENBLASINC) -I$(ANDROIDINC) -pthread \
            -g # -O0 -DKALDI_PARANOID
 
 ifeq ($(KALDI_FLAVOR), dynamic)
