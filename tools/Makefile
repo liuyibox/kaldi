@@ -97,7 +97,6 @@ openfst-$(OPENFST_VERSION).tar.gz:
 	if [ -d "$(DOWNLOAD_DIR)" ]; then \
 		cp -p "$(DOWNLOAD_DIR)/openfst-$(OPENFST_VERSION).tar.gz" .; \
 	else \
-		$(WGET) -T 10 -t 1 http://www.openfst.org/twiki/pub/FST/FstDownload/openfst-$(OPENFST_VERSION).tar.gz || \
 		$(WGET) -T 10 -t 3 https://www.openslr.org/resources/2/openfst-$(OPENFST_VERSION).tar.gz; \
 	fi
 
